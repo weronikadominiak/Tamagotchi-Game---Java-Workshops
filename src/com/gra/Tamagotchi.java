@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Tamagotchi extends JFrame {
@@ -110,7 +112,39 @@ public class Tamagotchi extends JFrame {
 		setVisible(true);
 		pack();
 		
+		Thread gameLogic = new Thread(new Runnable() {
+			boolean didLose = false;
 		
+			@Override
+			public void run() {
+				while(!didLose) {
+					try {
+						Thread.sleep(2000);
+						
+						int randomChange = new Random().nextInt(3) +1;
+						
+						if(randomChange == 1) lvlFood--;
+						if(randomChange == 2) lvlFun--;
+						if(randomChange == 3) lvlSleep--;
+						
+						printInfo();
+						
+						if(getLvl() > 0) {
+							repaint();
+						} else {
+							didLose = true;
+						}
+						
+					} catch(Exception ex) {
+						System.out.println("Something");
+					}
+				}
+				
+				JOptionPane.showMessageDialog(null, "You lost!");
+			}
+		});
+		
+		gameLogic.start();
 		
 	} 
 
