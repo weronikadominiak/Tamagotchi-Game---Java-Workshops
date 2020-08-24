@@ -25,9 +25,11 @@ public class Tamagotchi extends JFrame {
 		System.out.println("=============");
 	}
 	
+	public int getLvl() {
+		return Math.min(lvlFood, Math.min(lvlFun, lvlSleep));
+	}
 	
 	class GameWindow extends JPanel {
-		
 		public GameWindow() {
 			setLayout(null);
 			
@@ -40,14 +42,33 @@ public class Tamagotchi extends JFrame {
 			try {
 				ImageIcon iconKey = new ImageIcon(ImageIO.read(new File("grafika/klawisz.jpg")));
 
-				JButton foodKey = new JButton(iconKey);
+				JButton foodKey = new JButton();
 				foodKey.setBounds(152, 290, 50, 25);
+				foodKey.setIcon(iconKey);
+				foodKey.setBorderPainted(false);
+				foodKey.addActionListener(e -> {
+					System.out.println("Om nom nom!");
+					if(lvlFood < 5) lvlFood++;
+					repaint();
+				});
 				
 				JButton sleepKey = new JButton(iconKey);
 				sleepKey.setBounds(258, 290, 50, 25);
+				sleepKey.setBorderPainted(false);
+				sleepKey.addActionListener(e -> {
+					System.out.println("Zzzz!");
+					if(lvlSleep < 5) lvlSleep++;
+					repaint();
+				});
 
 				JButton funKey = new JButton(iconKey);
 				funKey.setBounds(205, 310, 50, 25);
+				funKey.setBorderPainted(false);
+				funKey.addActionListener(e -> {
+					System.out.println("He he he!");
+					if(lvlFun< 5) lvlFun++;
+					repaint();
+				});
 				
 				add(foodKey);
 				add(sleepKey);
@@ -69,7 +90,7 @@ public class Tamagotchi extends JFrame {
 			BufferedImage image;
 			
 			try {
-				image = ImageIO.read(new File("grafika/5.jpg"));
+				image = ImageIO.read(new File("grafika/"+ getLvl() + ".jpg"));
 				
 				g.drawImage(image,  0,  0, this);
 				
@@ -88,6 +109,9 @@ public class Tamagotchi extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		pack();
+		
+		
+		
 	} 
 
 	public static void main(String[] args) {
