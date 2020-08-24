@@ -119,7 +119,7 @@ public class Tamagotchi extends JFrame {
 			public void run() {
 				while(!didLose) {
 					try {
-						Thread.sleep(2000);
+						Thread.sleep(1500);
 						
 						int randomChange = new Random().nextInt(3) +1;
 						
